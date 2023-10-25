@@ -13,9 +13,9 @@ void NowPlaying::refresh_settings(bool force_update)
     const pfc::stringcvt::string_wide_from_utf8_t file(now::file_path.get());
     file_now_ = file;
     file_encoding_now_ = static_cast<t_uint>(now::file_encoding.get_value());
-    with_bom_now_ = now::with_bom.get();
-    file_append_now_ = now::file_append.get();
-    max_lines_now_ = static_cast<t_uint>(now::max_lines.get());
+    with_bom_now_ = now::with_bom.get_value();
+    file_append_now_ = now::file_append.get_value();
+    max_lines_now_ = static_cast<t_uint>(now::max_lines.get_value());
 
     if (force_update)
     {
@@ -256,8 +256,9 @@ void NowPlaying::write_file(const pfc::string8& payload, const std::wstring& fil
                 }
                 need_bom = need_bom && pos.QuadPart == 0;
             }
-            const std::vector<unsigned char> message = to_encoding(
-                payload + (with_append ? "\n" : ""), static_cast<encoding>(id_encoding), need_bom);
+            
+            const std::vector<unsigned char> message =
+                to_encoding(payload + (with_append ? "\n" : ""), static_cast<encoding>(id_encoding), need_bom);
 
             if (const size_t written = write_all(file.get(), message); written != message.size())
             {

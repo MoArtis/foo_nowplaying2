@@ -6,7 +6,7 @@
 class NowPlaying : public play_callback_static
 {
 public:
-    static constexpr unsigned playback_flags = flag_on_playback_new_track | flag_on_playback_pause | flag_on_playback_stop;
+    static constexpr unsigned playback_flags = flag_on_playback_new_track | flag_on_playback_pause | flag_on_playback_stop | flag_on_playback_time;
 
     void refresh_settings(bool force_update = false);
 
@@ -19,7 +19,7 @@ private:
     void on_playback_stop(play_control::t_stop_reason p_reason) override { update(); }
     void on_playback_seek(double p_time) override {}
     void on_playback_pause(bool p_state) override { update(); }
-    void on_playback_time(double p_time) override {}
+    void on_playback_time(double p_time) override { update(); }
     void on_playback_edited(metadb_handle_ptr p_track) override {}
     void on_playback_dynamic_info(const file_info& p_info) override {}
     void on_playback_dynamic_info_track(const file_info& p_info) override {}
